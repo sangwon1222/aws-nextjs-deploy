@@ -1,36 +1,25 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 배포 파이프라인 설명
 
-## Getting Started
+#### GitHub Actions와 AWS 서비스를 사용하여 정적 웹사이트를 자동으로 배포하는 CI/CD 파이프라인을 구축.
 
-First, run the development server:
+## 다이어그램
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+전체 파이프라인의 흐름을 나타낸 다이어그램.
+![Deployment Pipeline](docs/images/deployment-diagram.png)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 주요 구성 요소
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **GitHub Actions**: CI/CD 파이프라인 실행.
+2. **AWS S3**: 빌드된 정적 파일 저장.
+3. **AWS CloudFront**: 콘텐츠 배포
+4. **AWS Route 53**: 사용자 지정 도메인 관리.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 사용 방법
 
-## Learn More
+1. git clone https://github.com/sangwon1222/aws-nextjs-deploy.git
+2. main 브랜치에 코드 push => GitHub Actions 실행.
+3. 배포된 결과를 "https://leesw.kr"에서 확인
 
-To learn more about Next.js, take a look at the following resources:
+## 주요 링크
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. S3 버킷 웹사이트 엔드포인트:
