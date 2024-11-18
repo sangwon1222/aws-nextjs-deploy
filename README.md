@@ -22,4 +22,70 @@
 
 ## 주요 링크
 
-1. S3 버킷 웹사이트 엔드포인트:
+1. S3 버킷 웹사이트 엔드포인트: http://lsw-private-test-bucket.s3-website.ap-northeast-2.amazonaws.com/
+2. CloudFront 배포 도메인 이름: https://d1a1zdgqqsy8ds.cloudfront.net
+
+## 주요 개념
+
+1. GitHub Actions과 CI/CD 도구:
+
+- GitHub Actions는 Continuous Integration and Continuous Deployment (CI/CD) 도구로, GitHub 리포지토리 내에서 코드를 자동으로 빌드, 테스트, 배포하는 작업을 설정할 수 있습니다.
+- CI/CD는 코드 변경 사항을 지속적으로 통합(Continuous Integration)하고, 변경된 코드를 자동으로 배포(Continuous Deployment)하는 프로세스를 의미합니다.
+- GitHub Actions의 주요 특징:
+  - .github/workflows 폴더에 YAML 파일로 워크플로를 정의.
+  - 코드 푸시, PR 생성 등 특정 이벤트에 반응하여 자동으로 실행.
+  - 다양한 공개 액션과 커뮤니티 지원.
+
+2. S3와 스토리지:
+
+- S3(Simple Storage Service):
+  - AWS의 객체 스토리지 서비스로, 정적 파일(HTML, CSS, JavaScript 등)을 저장하고 제공하는 데 사용됩니다.
+  - 정적 웹사이트 호스팅 기능을 활성화하면 S3 버킷에서 웹사이트를 직접 제공할 수 있습니다.
+- 스토리지:
+  - 데이터를 영구적으로 저장하고, 인터넷을 통해 빠르게 접근할 수 있도록 하는 서비스.
+  - 무제한 확장 가능.
+  - 데이터의 안정성 보장.
+  - CloudFront와 연동하여 전 세계 사용자에게 콘텐츠를 제공 가능.
+
+3. CloudFront와 CDN:
+
+- CloudFront는 AWS의 Content Delivery Network(CDN) 서비스로, 콘텐츠를 전 세계 엣지 로케이션에서 캐싱하여 사용자와 가까운 위치에서 빠르게 제공합니다.
+- CDN(Content Delivery Network):
+  - 콘텐츠 전송 네트워크로, 웹사이트의 이미지, 동영상, HTML 파일 등의 정적 및 동적 콘텐츠를 빠르게 전송합니다.
+- CloudFront:
+  - S3와 연동해 정적 파일 제공.
+  - HTTPS 지원(AWS ACM 인증서와 통합).
+  - 전 세계 사용자에게 짧은 응답 시간을 제공.
+  - DDoS 공격 방지와 같은 보안 기능 제공.
+
+4. 캐시 무효화(Cache Invalidation):
+
+- CDN은 콘텐츠를 엣지 서버에 캐싱하여 전송 속도를 높이지만, 콘텐츠가 변경될 경우 캐시된 데이터를 무효화해야 최신 콘텐츠를 제공할 수 있습니다.
+- CloudFront에서 캐시 무효화:
+- CloudFront의 캐시 무효화 명령(aws cloudfront create-invalidation)을 실행하여 특정 경로나 전체 콘텐츠(/\*)를 무효화.
+- 무효화가 완료되면 모든 엣지 서버에서 최신 콘텐츠를 제공합니다.
+- 사용 시점:
+  - 코드 업데이트 또는 배포 후 변경된 파일이 즉시 반영되도록 할 때.
+
+5. Repository secret과 환경변수:
+
+- Repository Secret:
+  - GitHub Actions에서 사용하는 중요한 데이터를 암호화하여 저장하는 기능.
+  - AWS 자격 증명(AWS Access Key, Secret Key)이나 민감한 데이터(API 키 등)를 안전하게 관리.
+  - 환경변수:
+    - 실행 환경에서 사용하는 변수로, GitHub Actions의 YAML 파일에서 $를 통해 참조.
+    - GitHub Secrets와 함께 사용하여 보안성을 유지하면서 워크플로에서 활용.
+
+# CDN과 성능 최적화
+
+CDN 도입 전 리소스 비교
+|지표|CDN 도입 전(ms)|CDN 도입 후(ms)|
+|----|----------|----------|
+|TTFB (Time To First Byte)|5.35|12|
+|PLT (Page Load Time)|02|12|
+|DNS Lookup Time|02|12|
+|Throughput|02|12|
+
+CDN 도입 전 Next.svg
+![alt text](image.png)
+CDN 도입 후 Next.svg
