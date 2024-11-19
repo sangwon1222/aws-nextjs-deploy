@@ -6,7 +6,7 @@ export default function Home() {
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <Image
           aria-hidden
-          src="https://d1a1zdgqqsy8ds.cloudfront.net/test-image.png"
+          src="/test-image.png"
           alt="Test image"
           width={1280}
           height={1280}
@@ -14,7 +14,7 @@ export default function Home() {
 
         <Image
           className="dark:invert"
-          src="https://d1a1zdgqqsy8ds.cloudfront.net/next.svg"
+          src="/next.svg"
           alt="Next.js logo"
           width={180}
           height={38}
@@ -23,7 +23,7 @@ export default function Home() {
 
         <Image
           aria-hidden
-          src="https://d1a1zdgqqsy8ds.cloudfront.net/file.svg"
+          src="/file.svg"
           alt="File icon"
           width={46}
           height={46}
@@ -31,7 +31,7 @@ export default function Home() {
 
         <Image
           aria-hidden
-          src="https://d1a1zdgqqsy8ds.cloudfront.net/window.svg"
+          src="/window.svg"
           alt="Window icon"
           width={46}
           height={46}
@@ -39,7 +39,7 @@ export default function Home() {
 
         <Image
           aria-hidden
-          src="https://d1a1zdgqqsy8ds.cloudfront.net/globe.svg"
+          src="/globe.svg"
           alt="Globe icon"
           width={46}
           height={46}
