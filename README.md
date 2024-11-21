@@ -76,16 +76,58 @@
     - 실행 환경에서 사용하는 변수로, GitHub Actions의 YAML 파일에서 $를 통해 참조.
     - GitHub Secrets와 함께 사용하여 보안성을 유지하면서 워크플로에서 활용.
 
-# CDN과 성능 최적화
+# 성능
 
-CDN 도입 전 리소스 비교
-|지표|CDN 도입 전(ms)|CDN 도입 후(ms)|
-|----|----------|----------|
-|TTFB (Time To First Byte)|5.35|12|
-|PLT (Page Load Time)|02|12|
-|DNS Lookup Time|02|12|
-|Throughput|02|12|
+## 비교 도표
 
-CDN 도입 전 Next.svg
-![alt text](image.png)
-CDN 도입 후 Next.svg
+| 지표                      | CDN 도입 전 (S3) | CDN 도입 후 (CloudFront) |
+| ------------------------- | ---------------- | ------------------------ |
+| TTFB (Time To First Byte) | 40.53 (ms)       | 7.36 (ms)                |
+| PLT (Page Load Time)      | 246 (ms)         | 153 (ms)                 |
+| DNS Lookup Time           | 14.47 (ms)       | 8.09 (ms)                |
+
+### TTFB / DNS Lookup 지표
+
+#### CloudFront
+
+![CloudFront TTFB](docs/images/CloudFront-TTFB.jpg)
+
+#### S3
+
+![S3 TTFB](docs/images/S3-TTFB.jpg)
+
+### PLT 지표
+
+#### CloudFront
+
+![CloudFront-PLT](docs/images/CloudFront-PLT.png)
+
+#### S3
+
+![S3-PLT](docs/images/S3-PLT.png)
+
+## 크기와 서빙 속도
+
+### CloudFront의 네트워크
+
+![CloudFront 네트워크탭](docs/images/CloudFront-헤더.jpg)
+
+CloudFront의 응답헤더에는 `Content-Encoding`값과 `X-Cache`이 있는 것을 확인할 수 있다.
+
+`Content-Encoding`: br 헤더는 HTTP 응답이 Brotli 압축 알고리즘을 사용하여 압축되었음을 나타낸다.
+
+`X-Cache`는 CDN(Content Delivery Network) 캐시의 상태를 나타내는 커스텀 HTTP 헤더입니다. Hit from cloudfront는 요청이 처리될 때 Amazon CloudFront의 캐시에서 성공적으로 응답을 찾았음을 의미한다.
+
+### S3의 네트워크
+
+![S3 네트워크탭](docs/images/S3-헤더.jpg)
+
+S3의 응답헤더에는 `Content-Encoding`값과 `X-Cache`이 없는 것을 확인할 수 있다.
+
+=> 압축이 안되어 있다.
+
+### S3와 CloudFront 비교
+
+![서빙 속도 비교](docs/images/서빙속도비교.jpg)
+
+=> CloudFront로 서빙받은 콘텐츠가 Size는 4배정도 작고 응답속도는 2배정도 빠른걸 확인할 수 있다.
